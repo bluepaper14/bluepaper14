@@ -5,6 +5,10 @@
 
 Here are some ideas to get you started:
 
+//c 베너
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbluepaper14%2Fbluepaper14&count_bg=%233EA7B6&title_bg=%23000000&icon=visualstudio.svg&icon_color=%23B286E7&title=c+programming&edge_flat=false"/></a>
+
+
 - 🔭 I’m currently working on ...
 - 🌱 I’m currently learning ...
 - 👯 I’m looking to collaborate on ...
