@@ -1,13 +1,3 @@
-<div>
-  <!--Body-->
-  
-  ## 👀 About Me
-  #### :raising_hand: I am a Cloud Engineer from South Korea.<br/>
-  #### :fire: I aim to become a Cloud AI Engineer.<br/>
-  #### :mortar_board: Bachelor of Applied Artificial Intelligence, Sungkyunkwan University(SKKU)
-  <br/>
-  <br/>
-  
   ## 🧱 Tech Stack
   ### Language
   <!--Python-->
@@ -47,9 +37,18 @@
   <br/>
   
   ## 🤔 Github Stats
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=bluepaper14)](https://github.com/bluepaper14/github-readme-stats)
-<br/>
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=bluepaper14)](https://github.com/bluepaper14/github-readme-stats)
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+    <a href="https://github.com/bluepaper14/github-readme-stats">
+        <img src="https://github-readme-stats.vercel.app/api?username=bluepaper14" alt="GitHub Stats"/>
+    </a>
+    <a href="https://github.com/bluepaper14/github-readme-stats">
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=bluepaper14" alt="Top Languages"/>
+    </a>
+    <a href="https://solved.ac/bluepaper38/">
+        <img src="http://mazassumnida.wtf/api/v2/generate_badge?boj=bluepaper38" alt="Solved.ac Profile"/>
+    </a>
+</div>
+
 
   
 </div>
@@ -69,4 +68,4 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
-[![Solved.ac Profile](http://mazassumnida.wtf/api/v2/generate_badge?boj=bluepaper38)](https://solved.ac/bluepaper38/)
+
