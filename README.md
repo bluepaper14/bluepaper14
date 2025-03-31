@@ -32,12 +32,6 @@
 
 ## 🤔 Github Stats  
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-    <a href="https://github.com/bluepaper14/github-readme-stats">
-        <img src="https://github-readme-stats.vercel.app/api?username=bluepaper14" alt="GitHub Stats"/>
-    </a>
-    <a href="https://github.com/bluepaper14/github-readme-stats">
-        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=bluepaper14" alt="Top Languages"/>
-    </a>
     <a href="https://solved.ac/bluepaper38/">
         <img src="http://mazassumnida.wtf/api/v2/generate_badge?boj=bluepaper38" alt="Solved.ac Profile" style="width: 400px;"/>
     </a>
