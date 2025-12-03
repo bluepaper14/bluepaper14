@@ -1,0 +1,23 @@
+name: Latest Blog Post Workflow
+
+on:
+  schedule:
+    # 한국 시간 밤 11시 (UTC 14:00)에 실행
+    - cron: '0 14 * * *'
+  workflow_dispatch: # 수동 실행 버튼 활성화
+
+jobs:
+  update-readme-with-blog:
+    name: Update this repo's README with latest blog posts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          # 사용자님의 벨로그 RSS 주소입니다.
+          feed_list: "https://v2.velog.io/rss/bluepaper14"
+          max_post_count: 5
+          
+          # [중요] 잔디(Contribution)를 심기 위해 아래 두 줄을 본인 정보로 꼭 수정하세요!
+          committer_username: "bluepaper14"
+          committer_email: "skykong14@gmail.com"
