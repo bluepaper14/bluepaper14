@@ -30,14 +30,21 @@ for entry in feed.entries:
     if not os.path.exists(file_path):
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(f"---\n")
-            # YAML Front Matter (메타 데이터)
+            
             clean_title = entry.title.replace('"', "'")
             f.write(f'title: "{clean_title}"\n')
             f.write(f'date: {entry.published}\n')
-            f.write(f'categories: {entry.tags}\n')
+            
+            # [수정] 태그가 있을 때만 가져오기 (에러 방지)
+            if hasattr(entry, 'tags'):
+                tags = [t.term for t in entry.tags]
+                f.write(f'categories: {tags}\n')
+            else:
+                f.write(f'categories: []\n')
+
             f.write(f"---\n\n")
             
-            # [추가된 부분] 본문 시작 전에 제목을 # (H1) 태그로 출력
+            # [제목 추가] 마크다운 H1 태그로 제목 크게 출력
             f.write(f"# {entry.title}\n\n") 
             
             # 글 내용
