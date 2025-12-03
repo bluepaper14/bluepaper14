@@ -1,23 +1,33 @@
-name: Latest Blog Post Workflow
+name: Update Blog Posts
 
 on:
   schedule:
-    # 한국 시간 밤 11시 (UTC 14:00)에 실행
-    - cron: '0 14 * * *'
-  workflow_dispatch: # 수동 실행 버튼 활성화
+    - cron: '0 14 * * *' # 매일 밤 11시 실행
+  workflow_dispatch: # 수동 실행 가능
 
 jobs:
-  update-readme-with-blog:
-    name: Update this repo's README with latest blog posts
+  update_blog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: gautamkrishnar/blog-post-workflow@master
-        with:
-          # 사용자님의 벨로그 RSS 주소입니다.
-          feed_list: "https://v2.velog.io/rss/bluepaper14"
-          max_post_count: 5
-          
-          # [중요] 잔디(Contribution)를 심기 위해 아래 두 줄을 본인 정보로 꼭 수정하세요!
-          committer_username: "bluepaper14"
-          committer_email: "skykong14@gmail.com"
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install feedparser gitpython
+
+    - name: Run script
+      run: python scripts/update_blog.py
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "bluepaper14"
+        git config --global user.email "skykong14@gmail.com"
+        git add .
+        git commit -m "Add new blog posts" || exit 0
+        git push
