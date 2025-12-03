@@ -21,18 +21,26 @@ for entry in feed.entries:
     file_name = entry.title
     file_name = file_name.replace('/', '-')
     file_name = file_name.replace('\\', '-')
+    # 파일명 길이 제한
+    file_name = file_name[:200]
     
     file_path = os.path.join(save_dir, f'{file_name}.md')
 
-    # 파일이 이미 존재하지 않을 때만 생성 (새 글만 추가)
+    # 파일이 이미 존재하지 않을 때만 생성
     if not os.path.exists(file_path):
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(f"---\n")
-            f.write(f"title: {entry.title}\n")
-            f.write(f"date: {entry.published}\n")
-            f.write(f"link: {entry.link}\n")
+            # YAML Front Matter (메타 데이터)
+            clean_title = entry.title.replace('"', "'")
+            f.write(f'title: "{clean_title}"\n')
+            f.write(f'date: {entry.published}\n')
+            f.write(f'categories: {entry.tags}\n')
             f.write(f"---\n\n")
-            # 글 내용 (HTML을 그대로 저장하거나, 필요하면 변환 가능)
+            
+            # [추가된 부분] 본문 시작 전에 제목을 # (H1) 태그로 출력
+            f.write(f"# {entry.title}\n\n") 
+            
+            # 글 내용
             f.write(entry.description)
         
         print(f"New post saved: {file_name}")
