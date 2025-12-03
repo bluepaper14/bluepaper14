@@ -1,16 +1,13 @@
-## Hi there 👋
+# bluepaper14
 
-<!--
-**bluepaper14/bluepaper14** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+개발다운 개발을
 
-Here are some ideas to get you started:
+---
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### 🔗 Channels
+[![Velog](https://img.shields.io/badge/Velog-Tech%20Blog-20C997?style=flat-square&logo=velog&logoColor=white)](https://velog.io/@bluepaper14)
+[![Email](https://img.shields.io/badge/Email-Contact-333333?style=flat-square&logo=gmail&logoColor=white)](mailto:skykong14@gmail.com)
+
+---
+
+### 📚 Latest Posts
