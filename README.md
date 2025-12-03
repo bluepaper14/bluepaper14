@@ -10,13 +10,5 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
----
-
-## 📚 Latest Blog Posts
----
-
-## ⚡ GitHub Stats
-![Bluepaper14's GitHub stats](https://github-readme-stats.vercel.app/api?username=bluepaper14&show_icons=true&theme=dark)
-
 ### 🔗 Channels
 [![Velog](https://img.shields.io/badge/Velog-Tech%20Blog-20C997?style=flat-square&logo=velog&logoColor=white)](https://velog.io/@bluepaper14)
