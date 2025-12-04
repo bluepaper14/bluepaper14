@@ -1,0 +1,39 @@
+name: Update Blog Posts
+
+on:
+  push:
+    branches:
+      - main  # 혹은 master
+  schedule:
+    - cron: '0 0 * * *'  # 매일 자정 (UTC 기준) 실행
+  workflow_dispatch:      # 수동 실행 가능하도록 설정
+
+permissions:
+  contents: write
+
+jobs:
+  update-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run script
+        run: |
+          python scripts/update_blog.py
+
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "📝 Update blog posts & README"
+          branch: main # 혹은 master
+          file_pattern: 'README.md velog-posts/*.md'
