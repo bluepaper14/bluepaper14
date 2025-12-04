@@ -1,0 +1,19 @@
+name: Update Blog Posts
+on:
+  schedule:
+    # 5분마다 한 번씩 실행 (GitHub에서 허용하는 가장 빠른 속도)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # 수동으로 버튼 눌러서 실행 가능하게 함
+
+jobs:
+  update-readme-with-blog:
+    name: Update this repo's README with latest blog posts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          comment_tag_name: "BLOG-POST-LIST"
+          # 본인(bluepaper14)의 Velog 주소
+          feed_list: "https://v2.velog.io/rss/bluepaper14"
+          max_post_count: 3
