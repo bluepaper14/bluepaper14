@@ -1,4 +1,4 @@
-name: Update Blog Posts
+name: Update to git banner
 on:
   schedule:
     # 5분마다 한 번씩 실행 (GitHub에서 허용하는 가장 빠른 속도)
