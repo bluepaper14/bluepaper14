@@ -3,10 +3,10 @@ name: Update Blog Posts
 on:
   push:
     branches:
-      - main  # 혹은 master
+      - main
   schedule:
-    - cron: '0 0 * * *'  # 매일 자정 (UTC 기준) 실행
-  workflow_dispatch:      # 수동 실행 가능하도록 설정
+    - cron: '0 0 * * *'  # 매일 자정 실행
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install feedparser GitPython
 
       - name: Run script
         run: |
@@ -34,6 +34,6 @@ jobs:
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "📝 Update blog posts & README"
-          branch: main # 혹은 master
-          file_pattern: 'README.md velog-posts/*.md'
+          commit_message: "📂 Archive new Velog posts"
+          branch: main
+          file_pattern: 'velog-posts/*.md'  # 오직 글 파일만 커밋 대상
