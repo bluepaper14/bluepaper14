@@ -1,46 +1,18 @@
-name: Update Blog & Profile
+name: Update Blog Posts Only
 on:
   schedule:
-    # 5분마다 실행 (GitHub 최대 속도)
+    # 5분마다 실행
     - cron: '*/5 * * * *'
-  workflow_dispatch: # 수동 실행 버튼
+  workflow_dispatch: # 수동 실행 가능
 
 jobs:
-  update_everything:
+  update-readme-with-blog:
     runs-on: ubuntu-latest
     steps:
-      # 1. 코드 내려받기
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      
+      # 파이썬 스크립트 실행 부분은 제거했습니다 (충돌 방지)
 
-      # -------------------------------------------------------
-      # [작업 1] 파이썬 스크립트 실행 (배너/폴더용)
-      # -------------------------------------------------------
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install feedparser gitpython
-
-      # scripts 폴더 안에 update_blog.py 파일이 있어야 합니다.
-      - name: Run Python Script
-        run: python scripts/update_blog.py
-
-      # 파이썬이 만든 변경사항 저장 (변경사항이 있을 때만 실행됨)
-      - name: Commit Python changes
-        run: |
-          git config --global user.name "bluepaper14"
-          git config --global user.email "skykong14@gmail.com"
-          git add .
-          # 변경사항이 있는지 확인 후 커밋 (에러 방지)
-          git diff-index --quiet HEAD || git commit -m "Auto-update via Python script"
-          git push
-
-      # -------------------------------------------------------
-      # [작업 2] README에 글 목록 3개 업데이트 (gautamkrishnar)
-      # -------------------------------------------------------
       - name: Update README with Blog Posts
         uses: gautamkrishnar/blog-post-workflow@master
         with:
