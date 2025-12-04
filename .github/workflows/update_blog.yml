@@ -1,39 +1,18 @@
 name: Update Blog Posts
-
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 0 * * *'  # 매일 자정 실행
-  workflow_dispatch:
-
-permissions:
-  contents: write
+    # 5분마다 실행
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # 수동 실행 가능
 
 jobs:
-  update-blog:
+  update-readme-with-blog:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+      - uses: gautamkrishnar/blog-post-workflow@master
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install feedparser GitPython
-
-      - name: Run script
-        run: |
-          python scripts/update_blog.py
-
-      - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "📂 Archive new Velog posts"
-          branch: main
-          file_pattern: 'velog-posts/*.md'  # 오직 글 파일만 커밋 대상
+          comment_tag_name: "BLOG-POST-LIST"
+          # 여기가 핵심입니다 (아이디 변경됨)
+          feed_list: "https://v2.velog.io/rss/bluepaper02"
+          max_post_count: 3
