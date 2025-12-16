@@ -23,7 +23,6 @@
             <img src="https://img.shields.io/badge/Gmail-EA4335?style=flat&logo=Gmail&logoColor=white"> 
         </a>
     </div> <br>
-
     <h3 style="color: #c9d1d9;">Visitor Counter Test</h3>
     <div style="text-align: left;">
         
