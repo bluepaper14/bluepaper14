@@ -22,5 +22,26 @@
         <a href="mailto:skykong14@gmail.com"> 
             <img src="https://img.shields.io/badge/Gmail-EA4335?style=flat&logo=Gmail&logoColor=white"> 
         </a>
+    </div> <br>
+
+    <h3 style="color: #c9d1d9;">Visitor Counter Test</h3>
+    <div style="text-align: left;">
+        
+        <div>1. Komarev: 
+            <img src="https://komarev.com/ghpvc/?username=bluepaper14&label=Views&color=blue&style=flat" alt="Komarev" />
+        </div>
+        <br>
+
+        <div>2. Hits.sh: 
+            <a href="https://hits.sh/github.com/bluepaper14/">
+                <img src="https://hits.sh/github.com/bluepaper14.svg?style=flat&label=Visits&color=000000" alt="Hits.sh"/>
+            </a>
+        </div>
+        <br>
+
+        <div>3. HITS (Pixel): 
+            <img src="https://hit.yhype.me/github/profile?user_id=bluepaper14" alt="Hits Pixel" />
+        </div>
+
     </div> 
 </div>
