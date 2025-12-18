@@ -5,11 +5,10 @@ from datetime import datetime
 import html2text
 
 # --- 설정 구간 ---
-VELOG_ID = "bluepaper14_"  # 벨로그 아이디 (언더바 포함 확인)
+VELOG_ID = "bluepaper14_"  # 벨로그 아이디
 RSS_URL = f"https://v2.velog.io/rss/{VELOG_ID}"
 BACKUP_DIR = "posts"  # 글이 저장될 폴더 이름
 
-# --- 메인 로직 ---
 def clean_filename(title):
     # 파일명으로 쓸 수 없는 문자 제거
     return re.sub(r'[\\/*?:"<>|]', "", title)
@@ -22,37 +21,35 @@ def main():
     if not os.path.exists(BACKUP_DIR):
         os.makedirs(BACKUP_DIR)
 
-    # 3. Git 설정 (GitHub Actions에서 실행될 때 필요)
+    # 3. Git 설정
     os.system('git config --global user.name "GitHub Action"')
     os.system('git config --global user.email "action@github.com"')
 
     has_updates = False
     
-    # RSS 피드는 최신글이 앞쪽에 있으므로, 과거 순으로 커밋하고 싶다면 뒤집어야 함
-    # 하지만 "새로 쓴 글"을 감지하는 것이므로 순서는 크게 상관 없으나,
-    # 동시에 여러 글을 썼을 때 순서대로 커밋되게 하기 위해 역순 정렬 추천
+    # RSS 피드 역순 정렬 (과거순으로 처리)
     for entry in reversed(feed.entries):
-    title = entry.title
-    link = entry.link
-    published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
-    
-    # --- 태그 추출 로직 추가 ---
-    # 벨로그 RSS는 tags라는 필드에 태그 리스트를 담아 보냅니다.
-    tags = [tag.term for tag in entry.get('tags', [])]
-    # 옵시디언 YAML 형식에 맞게 리스트를 문자열로 변환
-    tags_str = ", ".join(tags) if tags else "velog, backup"
-    # -----------------------
+        title = entry.title
+        link = entry.link
+        # 날짜 추출
+        published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
+        
+        # --- 태그 추출 추가 ---
+        tags = [tag.term for tag in entry.get('tags', [])]
+        tags_str = ", ".join(tags) if tags else "velog, backup"
 
-    content_html = entry.description
-    h = html2text.HTML2Text()
-    h.ignore_links = False
-    content_md = h.handle(content_html)
+        # HTML을 마크다운으로 변환
+        content_html = entry.description
+        h = html2text.HTML2Text()
+        h.ignore_links = False
+        content_md = h.handle(content_html)
 
-    filename = clean_filename(title) + ".md"
-    filepath = os.path.join(BACKUP_DIR, filename)
+        # 파일명 및 경로 설정
+        filename = clean_filename(title) + ".md"
+        filepath = os.path.join(BACKUP_DIR, filename)
 
-    # --- YAML에 태그 정보 포함 ---
-    full_content = f"""---
+        # 옵시디언 최적화 YAML Frontmatter 구성
+        full_content = f"""---
 title: "{title}"
 date: {published}
 url: "{link}"
@@ -64,31 +61,27 @@ tags: [{tags_str}]
 {content_md}
 """
 
-        # 파일 변경 감지 로직
         is_new_or_updated = False
         
-        # 기존 파일이 없으면 생성
+        # 파일 변경 감지
         if not os.path.exists(filepath):
             is_new_or_updated = True
         else:
-            # 기존 파일이 있다면 내용을 읽어서 비교 (변경사항이 있을 때만 커밋)
             with open(filepath, 'r', encoding='utf-8') as f:
                 old_content = f.read()
             if old_content.strip() != full_content.strip():
                 is_new_or_updated = True
 
         if is_new_or_updated:
-            # 파일 쓰기
             with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(full_content)
             
-            # --- 핵심: 게시물 1개당 1 커밋 ---
             print(f"Commit: {title}")
             os.system(f'git add "{filepath}"')
             os.system(f'git commit -m "Update post: {title}"')
             has_updates = True
 
-    # 4. 변경사항이 있다면 GitHub으로 Push
+    # 4. 변경사항 Push
     if has_updates:
         os.system('git push')
     else:
