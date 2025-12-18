@@ -21,24 +21,33 @@ def main():
     if not os.path.exists(BACKUP_DIR):
         os.makedirs(BACKUP_DIR)
 
-    # 3. Git 설정
+    # 3. Git 설정 (GitHub Actions 환경용)
     os.system('git config --global user.name "GitHub Action"')
     os.system('git config --global user.email "action@github.com"')
 
     has_updates = False
     
-    # RSS 피드 역순 정렬 (과거순으로 처리)
+    # RSS 피드를 역순(과거순)으로 처리하여 커밋 로그를 순서대로 기록
     for entry in reversed(feed.entries):
         title = entry.title
         link = entry.link
-        # 날짜 추출
+        # 발행일 추출
         published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
         
-        # --- 태그 추출 추가 ---
-        tags = [tag.term for tag in entry.get('tags', [])]
-        tags_str = ", ".join(tags) if tags else "velog, backup"
+        # --- 태그 추출 로직 보강 ---
+        raw_tags = entry.get('tags', [])
+        actual_tags = []
+        for t in raw_tags:
+            # 피드 객체 형태에 따라 term 속성 혹은 키값을 추출
+            if hasattr(t, 'term'):
+                actual_tags.append(t.term)
+            elif isinstance(t, dict) and 'term' in t:
+                actual_tags.append(t['term'])
+        
+        # 태그가 있으면 쉼표로 구분, 없으면 기본값 부여
+        tags_str = ", ".join(actual_tags) if actual_tags else "velog, backup"
 
-        # HTML을 마크다운으로 변환
+        # HTML 콘텐츠를 마크다운으로 변환
         content_html = entry.description
         h = html2text.HTML2Text()
         h.ignore_links = False
@@ -48,7 +57,7 @@ def main():
         filename = clean_filename(title) + ".md"
         filepath = os.path.join(BACKUP_DIR, filename)
 
-        # 옵시디언 최적화 YAML Frontmatter 구성
+        # 옵시디언 YAML Frontmatter 구성 (태그 포함)
         full_content = f"""---
 title: "{title}"
 date: {published}
@@ -63,7 +72,7 @@ tags: [{tags_str}]
 
         is_new_or_updated = False
         
-        # 파일 변경 감지
+        # 파일 변경 감지: 파일이 없거나 내용이 다르면 업데이트
         if not os.path.exists(filepath):
             is_new_or_updated = True
         else:
@@ -78,10 +87,11 @@ tags: [{tags_str}]
             
             print(f"Commit: {title}")
             os.system(f'git add "{filepath}"')
+            # 파일별로 커밋 생성
             os.system(f'git commit -m "Update post: {title}"')
             has_updates = True
 
-    # 4. 변경사항 Push
+    # 4. 모든 변경사항을 한 번에 Push
     if has_updates:
         os.system('git push')
     else:
