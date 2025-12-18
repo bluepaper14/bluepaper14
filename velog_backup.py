@@ -34,19 +34,29 @@ def main():
     for entry in reversed(feed.entries):
         title = entry.title
         link = entry.link
-        # RSS에는 전체 내용이 없을 수도 있지만, Velog는 대개 description에 내용을 포함함
-        # html 형식을 마크다운으로 변환
+        # RSS 피드의 발행일 추출 (없으면 현재 시간)
+        published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
+        
         content_html = entry.description
         h = html2text.HTML2Text()
         h.ignore_links = False
         content_md = h.handle(content_html)
 
-        # 파일명 생성 (제목.md)
         filename = clean_filename(title) + ".md"
         filepath = os.path.join(BACKUP_DIR, filename)
 
-        # 내용 앞에 원본 링크와 제목 추가
-        full_content = f"# [{title}]({link})\n\n{content_md}"
+        # 옵시디언 최적화용 YAML 추가
+        full_content = f"""---
+title: "{title}"
+date: {published}
+url: "{link}"
+tags: [velog, backup]
+---
+
+# [{title}]({link})
+
+{content_md}
+"""
 
         # 파일 변경 감지 로직
         is_new_or_updated = False
