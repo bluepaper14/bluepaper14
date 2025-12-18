@@ -32,25 +32,31 @@ def main():
     # 하지만 "새로 쓴 글"을 감지하는 것이므로 순서는 크게 상관 없으나,
     # 동시에 여러 글을 썼을 때 순서대로 커밋되게 하기 위해 역순 정렬 추천
     for entry in reversed(feed.entries):
-        title = entry.title
-        link = entry.link
-        # RSS 피드의 발행일 추출 (없으면 현재 시간)
-        published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
-        
-        content_html = entry.description
-        h = html2text.HTML2Text()
-        h.ignore_links = False
-        content_md = h.handle(content_html)
+    title = entry.title
+    link = entry.link
+    published = entry.get('published', datetime.now().strftime("%Y-%m-%d %H:%M"))
+    
+    # --- 태그 추출 로직 추가 ---
+    # 벨로그 RSS는 tags라는 필드에 태그 리스트를 담아 보냅니다.
+    tags = [tag.term for tag in entry.get('tags', [])]
+    # 옵시디언 YAML 형식에 맞게 리스트를 문자열로 변환
+    tags_str = ", ".join(tags) if tags else "velog, backup"
+    # -----------------------
 
-        filename = clean_filename(title) + ".md"
-        filepath = os.path.join(BACKUP_DIR, filename)
+    content_html = entry.description
+    h = html2text.HTML2Text()
+    h.ignore_links = False
+    content_md = h.handle(content_html)
 
-        # 옵시디언 최적화용 YAML 추가
-        full_content = f"""---
+    filename = clean_filename(title) + ".md"
+    filepath = os.path.join(BACKUP_DIR, filename)
+
+    # --- YAML에 태그 정보 포함 ---
+    full_content = f"""---
 title: "{title}"
 date: {published}
 url: "{link}"
-tags: [velog, backup]
+tags: [{tags_str}]
 ---
 
 # [{title}]({link})
