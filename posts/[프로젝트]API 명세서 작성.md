@@ -42,21 +42,14 @@ Method | 역할 (Action) | 의미 및 설명
   
 이제 명세화 이전의 목록을 만들어보자.
 
-화면 / 기능 | 주요 동작 및 내용 | 필요한 API  
----|---|---  
-로그인 | 로그인 시도 및 JWT 토큰 발급 (이후 모든 요청 헤더에 포함) | POST /api/auth/login  
-전체 공통 (내 정보) | 현재 로그인한 사용자 정보 조회 (우측 상단 아바타 표시용) | GET /api/auth/me  
-홈 / 사이드바 공통 | 로그인 계정이 소유한 시뮬레이션 목록 불러오기 | GET /api/simulations  
-초기 설정 | 시뮬레이션 생성 및 ID 발급 (URL, 페르소나 설정 등 전송) | POST /api/simulations  
-진행 화면 | 시뮬레이션 진행률 및 상태 조회 (폴링 방식) | GET /api/simulations/{id}/status  
-결과 전체 공통 | 시뮬레이션 제목, 생성일, 상태 등 기본 정보 조회 | GET /api/simulations/{id}  
-결과 페이지 공통 | 방문한 페이지 목록 및 스크린샷 URL 조회 | GET /api/simulations/{id}/pages  
-개요 | 전환율, AI 사용자 수, 평균 완료 시간 등 요약 데이터 표시 | GET /api/simulations/{id}/overview  
-주요 이슈 | 페이지별 카테고리 분포 및 상세 이슈 목록 조회 | GET /api/simulations/{id}/pages/{pageId}/issues  
-히트맵 | 연령대 필터링이 적용된 집계 클릭 좌표 및 오류 오버레이 표시 | GET /api/simulations/{id}/pages/{pageId}/heatmap  
-WCAG | 웹 콘텐츠 접근성 준수 점수, 통과 테스트 수, 위반 목록 조회 | GET /api/simulations/{id}/pages/{pageId}/wcag  
-AI 수정 | 이슈별 Before/After 코드 및 영향도 설명 조회 | GET /api/simulations/{id}/pages/{pageId}/aifix  
-  
-### 초기 설정 API 명세
+# | HTTP | 엔드포인트 | 설명 | 주요 기능  
+---|---|---|---|---  
+1 | **POST** | `/api/simulations` | 시뮬레이션 생성 | `SimulationCreateRequest` 기반으로 DB 저장, `pending` 상태로 반환  
+2 | **GET** | `/api/simulations` | 시뮬레이션 목록 조회(사이드바) | 사용자별 시뮬레이션 목록, 최신순 정렬  
+3 | **GET** | `/api/simulations/{id}/overview` | 개요 탭 데이터 | **Mock** : 전체 성공률, funnel 패널, 연령대별 통계  
+4 | **GET** | `/api/simulations/{id}/issues` | 주요 이슈 탭 | **Mock** : 페이지별 이슈 목록, 심각도, 영향 사용자 수  
+5 | **GET** | `/api/simulations/{id}/ai-fix` | AI 수정 제안 탭 | **Mock** : Before/After 코드, 영향도 설명  
+6 | **GET** | `/api/simulations/{id}/heatmap` | 히트맵 탭 | **Mock** : 좌표 기반 오류 집계, 연령대 필터  
+7 | **GET** | `/api/simulations/{id}/wcag` | WCAG 접근성 탭 | **Mock** : 규정 준수 점수, Critical/Moderate/Minor 분류
 
 
